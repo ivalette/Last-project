@@ -1,0 +1,66 @@
+What Is The Fuel Performance Of Your Car?
+========================================================
+transition: rotate 
+![alt text](Cars2.png)   
+<small>
+Author: Isabelle Valette    
+Date: April 25th, 2015     
+Course: Developing Data Products   
+Data Science Specialization on Coursera    
+</small>
+
+Executive Summary
+========================================================
+transition: rotate
+Use the inputs on the left-hand side of the [Shiny App](https://ivalette.shinyapps.io/LastProject/) to calculate the fuel economy performance of your car measured in Miles per gallon (MPG).
+
+- The **Data** and **EDA** tabs will give you a feeling of what the data foundation looks like and what are the potential issues with the linear regression model used.
+- The **Car Specifications** tab shows you a summary of the specifications you selected.
+- The **Fuel Performance** tab shows you how well your car is performing.
+
+
+Taking a quick look at the data
+========================================================
+transition: rotate 
+We will use a standard dataset from r for calculating your car fuel performance.The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+
+```{r}
+data(matcars); head(mtcars[,c(1:4,6,9 )])
+```
+
+
+Using Linear Regression
+========================================================
+transition: rotate
+
+The calculation performed by the Shiny App are the results of the following regression model. 
+
+```
+fit <- lm (mpg ~ cyl + am + wt + disp + hp, data=mpgData)
+```
+We have listed for you the coefficients from the linear regression model used in Shiny.
+```{r, echo=FALSE, out.width = 2, out.height = 2}
+#Loading the data
+data(mtcars); mpgData <- mtcars[,c(1:4,6,9 )]
+# We tweak the "am" field to have nicer factor labels.
+mpgData$am <- factor(mpgData$am, labels = c("0 - Automatic", "1 - Manual"))
+# Building a regression model
+fit <- lm (mpg ~ cyl + am + wt + disp + hp, data=mpgData)
+summary(fit)$coefficients[,1:2]
+```
+
+Final Notes
+========================================================
+transition: rotate 
+
+
+
+- Link to my [Shiny App](https://ivalette.shinyapps.io/LastProject/)
+- Link to my files on [Github](https://github.com/ivalette/Last-project)
+
+Note: The linear model used in our example is for recreational use only and does not statisfy the strict assumptions required in building a linear statistical model. 
+
+The project concludes the last of the courses from the data science specialization on Coursera.    
+
+For more details on authoring R presentations, please view the following [tutorials](https://support.rstudio.com/hc/en-us/sections/200130218-R-Presentations) from RStudio.
