@@ -67,6 +67,7 @@ shinyUI(fluidPage(
                                 h4('Your specifications resulted in a fuel economy performance measured 
                                    in Miles per gallon (MPG) of: '),
                                 verbatimTextOutput("prediction"), 
+                                h4('Your Fuel Performance'),
                                 plotOutput('newHist3')
                                 )
                         

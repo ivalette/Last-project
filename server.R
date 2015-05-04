@@ -20,6 +20,20 @@ prob <- function( am, wt, disp, cyl, hp) {38.20 - 1.56 * am -  3.3 * wt + 0.012 
 # Define server logic required to summarize and view the selected data
 shinyServer(
         function(input, output) {
+                
+                # Create reactive
+                newData <- reactive({
+                        #as.data.frame(mpgData)
+                        mpgData[33,1] <- 38.20 - 1.56 * as.numeric(input$id4) -  3.3 * as.numeric(input$id1)
+                        + 0.012 * as.numeric(input$id2) - 1.11 * as.numeric(input$id3) - 0.03 * as.numeric(input$id5)
+                        mpgData[33,2] <- as.numeric(input$id3)
+                        mpgData[33,3] <- as.numeric(input$id2)
+                        mpgData[33,4] <- as.numeric(input$id5)
+                        mpgData[33,5] <- as.numeric(input$id1)
+                        mpgData[33,6] <- as.numeric(input$id4)
+                        mpgData[33,7] <- 1
+                        as.data.frame(mpgData)
+                })
              
                 # Create Output and id Variables
                 output$wt <- renderPrint({input$id1})
@@ -37,7 +51,18 @@ shinyServer(
                 output$newHist2 <- renderPlot({
                         pairs(mpgData, panel = panel.smooth, main = "Mtcars data", col = 3 + (mpgData$mpg > 22))
                         })
-              
+                output$newHist3 <- renderPlot({
+                        #plot(newData[1:32, ]$mpg, col="blue", pch=16)
+                        #plot(newData[33, ]$mpg, col="red", pch=16)
+                        ggplot(newData(), 
+                               aes(x = wt, y = mpg, colour = factor(V7) )) + 
+                                geom_point() + xlab("Weight") +
+                                ylab("Miles/(US) gallon")+ scale_color_discrete(
+                                        name="",
+                                        breaks=c("0", "1"),
+                                        labels=c("Cars from data", "Your car")
+                                )
+                })
                 # Generate a summary of the dataset
                 output$summary <- renderPrint({
                         summary(mpgData[,2:5])
